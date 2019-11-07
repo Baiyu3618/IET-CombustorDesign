@@ -1,3 +1,0 @@
-// this is the entry point for the website's script
-// nothing else should be put here.
-require(['ge-pgdp']);
