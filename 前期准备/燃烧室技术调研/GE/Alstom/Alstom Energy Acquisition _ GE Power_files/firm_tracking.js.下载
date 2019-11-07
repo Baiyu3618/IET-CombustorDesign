@@ -1,0 +1,160 @@
+(function(w) {
+  var config = {"metricsLabels":{"audiences":"TR Audience","campaigns":"TR Campaign","contentBoards":"TR Content Board","personalizations":"TR Personalization"},"hitTypes":{"contentBoards":"event","audiences":"event","personalizations":"event","campaigns":"event"},"shouldTrackOrgAssets":true,"firmTrackProvider":"custom","triblioVisitorId":"fm6WIN5zBIRnKwcDu8S3qrwx"};
+  var triblioVisitorId = config.triblioVisitorId;
+  var firmographicRecord =  {"name":"Datalogic S.p.A.","sicCode":3999,"isIsp":false,"employees":"2,500 to 5,000","revenue":"$250,000,000 to $500,000,000","country":"Italy","domain":"datalogic.com","naicCode":333249,"employeesCode":8,"revenueCode":7,"region":"Emilia-Romagna","city":"San Vitale Grande","subIndustry":"Other Industrial Machinery Manufacturing","industry":"Machinery Manufacturing"};
+  var shouldTrackOrgAssets = config.shouldTrackOrgAssets;
+  var eIdsToNames = {"personalizations":{"b4pa":"form - all pages","zvoW":"outages form - all pages - USA","3M3P":"iraq deal sticky footer","mDJL":"Boilers SSA homepage","oOZ3":"aero vs recips homepage personalization","dMZA":"grid firming aus renewables homepage banner personalization","MQLO":"grid firming aus utilities homepage banner personalization","D4RZ":"grid firming aus generic homepage banner personalization","XPMo":"grid firming aus mining homepage banner personalization","49ZK":"grid firming aus generic homepage banner personalization","axqK":"gas turbines banner","4D4K":"parts 1-50","wOxe":"homepage messaging3","2q3v":"eskom boilers ssa personalization","XeG8":"aero industrials indonesia gas turbines personalization","dx3K":"aero industrials indonesia homepage journeys personalization","KbO1":"6B repowering ad","49KB":"senegal lm6000","6lEZ":"gas services ad","pOE9":"aero indonesia tm2500","k7ZB":"grid firming aus generic homepage banner personalization","LvAW":"epc asia gas turbines","pZk1":"epc china gas turbines","lZ4G":"epc europe gas turbines","GYlJ":"genco ssa gas turbines","ZPxO":"genco asia gas turbines","vZqR":"genco europe gas turbines","OEnZ":"aero vs recips gas turbines personalization","78ae":"genco mena gas turbines","JLpK":"genco china gas turbines","YBae":"genco south asia gas turbines","KLMR":"genco asia gas services","5vJw":"genco china gas services","JPlD":"grid firming aus generic homepage banner personalization","O0lj":"genco ssa gas services","64JG":"genco europe gas services","ZDEO":"Product Catalog - hiding download","xA9g":"genco mena gas services","aEB8":"genco south asia gas services","0l6v":"epc asia homepage","bxYR":"AUS M&R utilities","wAeW":"epc china homepage","WjA2":"epc europe homepage","mJ8Z":"epc europe homepage","oZjl":"epc china homepage","XML8":"genco asia homepage","dZzK":"genco europe homepage","DRXY":"genco china homepage","o0JZ":"M&R case study - sniace","ngPK":"Gas turbine services flyin","MLAJ":"genco mena home","4Z6v":"genco south asia home","8naX":"genco ssa home","XPPo":"consolidated aero m&r ads - phase 2","8O8v":"Aero webinar flyin 1","WBOP":"fuel flex webinar ad","8YDa":"fast power africa redirect","YWOe":"offshore personalization - offshore page","J5lK":"Offshore personalization - haliade product","kJz2":"Homepage flyin","bWPO":"competitor download blocking","z6R2":"competitor download blocking - french","Y9YJ":"GT26 display ads","7pne":"offshore personalization - haliade x product","pebY":"offshore personalization - haliade x product","Z79v":"Offshore personalization - haliade product","vBE4":"offshore personalization - offshore page","3Dbk":"captive power gas turbines personalization","G5l8":"invenergy hub","n0A2":"gas upgrades Display Ad","w6pg":"exelon battery storage","OpOw":"WS Display Ad","83aX":"ES Display Ad","q4bY":"AUS M&R mining","0Oa0":"onshore wind Display Ad","8EO0":"iraq siemens redirect - arabic","z63Q":"gt26 display ads round 2","Gbol":"industrial steam boiler services p&p in NAM personalization","g7LB":"dashboard prompt","Lz05":"lm6000 time form pop up","D46v":"indonesia lm2500","MQXo":"indonesia lm6000","49KP":"indonesia lms100","3ZOg":"lm6000 test","8D6W":"indonesia tm2500","6YEl":"boilers SSA redirect","j7nX":"indonesia lm6000","wpmq":"bat storage display ad","Oekg":"grid firming AUS lms100 personalization","xmKn":"grid firming AUS lm6000 personalization","k76X":"indonesia lms100","qOQY":"senegal lm2500","GMqk":"Aero sticky footer","zOeZ":"senegal lms100","3e1D":"ethiopia lm2500","LzXA":"kenya lm2500","l76L":"kenya lm6000","QEKx":"south africa lm2500","qOnl":"south africa lm6000","e7W8":"south africa lms100","9OlK":"south africa tm2500","E8Kb":"nigeria lm2500","R4KJ":"nigeria lm6000","vObQ":"nigeria lms100","g76d":"ethiopia lm6000","2qMq":"ethiopia lms100","A1Ke":"ethiopia tm2500","pO8L":"kenya lms100","ZM6Z":"kenya tm2500","Rv66":"email collections - outage services","13L5":"email collection popup - serivces","Jzkz":"outage sticky footer","MvP5":"outage marketo fullscreen popup - homepage","3mg5":"Xcel flex - 7f.05 sticky footer","WqJ7":"tva hub ads","3Dqg":"aero industrials indonesia display ads round 1","kxP0":"consolidated aero m&r ads - phase 1","aKa1":"aero industrials indonesia display ads round 2","8OEd":"Aero flyin 3","XaZz":"Key Account Webinar Display Ad","qOYj":"taiwan 7ha.03 redirect","xoJ9":"GT26 round 2","8DDL":"aero indonesia homepage banner personalization","1Q8W":"taiwan 7ha redirect","lOa9":"offshore NAM display ads","GjvQ":"homepage messaging2","dMLw":"grid firming AUS tm2500 personalization","vZ85":"exxon mobil homepage personalization","oOM9":"grid firming AUS lm2500 personalization","8D6M":"indonesia lm2500","BdKX":"indonesia tm2500","b760":"senegal tm2500","1QEO":"nigeria tm2500","RvEo":"outages form - all pages - campaign code","z8BZ":"iraq siemens redirect","Rj5J":"email collection popup - ppa copy","8EDL":"marketo","W1KM":"outage sticky footer - homepage","6aA9":"parts 51-100","dDbn":"gas plant services","782E":"lms100 time form pop up","JL9e":"tm2500 time form pop up","YBX6":"lm2500 time form pop up","GYQ8":"lm9000 time form pop up","gBWq":"email collections - repairs maintenance","5pqK":"M&R case study - 51 days","zOE2":"grid firming aus renewables ads phase 2","8Y9d":"grid firming aus utilities ads","Lzan":"boiler services ssa display ads","L9nW":"industrial steam boiler services p&p in NAM ads - phase 1","P9WB":"grid firming aus mining ads phase 2","Dkv9":"grid firming aus mining ads","bWRO":"boiler parts","ep9n":"confidence display ad","xpX9":"adapting display ad","83bL":"SS display ad","M4D9":"grid firming aus renewables ads","b7QO":"grid firming aus utilities ads phase 2","5Dwv":"7HA display ad","JqgR":"Aero M&R AUS display ads","4YzE":"grid firming aus generic ads","dJ2o":"Aero flyin 1","4m5E":"Aero flyin 2","KZRm":"Aero fly-in","WJ2q":"pdf callout 2","25Zo":"email collection - field services","3MG8":"email collections - outage services","mew2":"outage marketo fullscreen popup - services","o6Z3":"marketo","60RG":"outage marketo form - slide-in 3","jw0P":"outage sticky footer - services","p9YL":"outage sticky footer - gas turbine product page","1m1l":"Xcel flex - downloads sticky footer","x4L3":"Xcel flexibility redirect","jl13":"Aero webinar flyin 2","kJ3L":"Aero webinar flyin 3","Ppjw":"sir 4 search results marketo form"},"campaigns":{"x04g":"GPS Product Catalog Competitors","zBOE":"universal access","KExJ":"Iraq deal","jvYP":"Aero Industrials Indonesia display ads","mlx2":"2019_SP_BoilerServices_SSA","bXzj":"Aero M&R (AUS) Personalization","Obxb":"Offshore NAM","w2Le":"7HA + taiwan","M0mL":"Search results","jvwe":"GT26 High Efficiency display ads","jY0D":"Captive power personalization","1Lgl":"Aero vs recips","KmL9":"Aero Asset 2.0 M&R NAM","gW5D":"NAM Key Account Display Ads","Jmzj":"africa fast power","w27W":"fuel flexibility webinar","QQQk":"Aero Industrials Indonesia personalization","QQWv":"2019_GPS_GridFirming_SSA","520D":"Aero timing tech specs form pop up","PR9o":"Xcel Flexibility - Personalization","a1D8":"[PS] Outage Services","9BMK":"Grid firming AUS","QQKG":"NAM key account personalization","nDwK":"Aero M&R AUS display ads","L7qA":"Industrial steam boiler services_P&P in NAM"},"contentHubs":{"w2YX":"TD-test123","409j":"GE Template","b02a":"Petrolesa","kRlk":"GE Sales Targeting","RjjQ":"ESKOM | GE Power","xZZD":"ExxonMobil","k0XR":"Alinta Energy - no categories","Rj9d":"Berkshire Hathaway Energy","4AxK":"LADWP","1X19":"APS","1Xg9":"Exelon | GE Power","qvm5":"Sales leader template","9XRq":"Invenergy","720R":"generic content hub template","l1Bw":"Xcel","X3mp":"Alejandro Izquierdo | GE Power","GQxk":"Lebanon & GE Power","d450":"Southern Company","ZeYZ":"TVA","MBzB":"Duke Energy","9XdK":"NextEra","xYq2":"Dominion","aklo":"Entergy","XXM2":"Offshore Wind NAM","Baen":"Copy of Alinta Energy - category card","zJlR":"Alinta Energy | GE Power","k0zR":"Origin Energy | GE Power","qELm":"AGL | GE Power","vmW1":"Exelon - old","8K4X":"[Power Digital] Hydro Quebec","v29q":"[Steam Services] SWCC","4mln":"Comcast","eDez":"[Steam Services] SWCC - lowercase URL"},"audiences":{"D0w7":"boilers SSA","aXD8":"invenergy","gqoq":"Aero M&R AUS","eXE8":"Australia","Xx78":"Africa","GaR5":"@demo","pRn5":"Bangladesh USC","ZpzJ":"Aero Asset M&R sniace display ad","PGlm":"key accounts - onshore wind","60l9":"power of yes","gqRD":"PoY accounts","zbaJ":"grid firming aus - mining","qDaJ":"grid firming aus - generic","eDap":"grid firming aus - utilities","BWbk":"key accounts - confidence","Qx3v":"grid firming aus - renewables","pRX7":"pulp & paper","AG09":"Qatar","eD9e":"boilers SSA display","jwgX":"aero industrials indonesia","oEpP":"aero asset m&r 51 days ad","kdxL":"Offshore NAM","D0k7":"Saudi Arabia","P3gb":"offshore NAM display ads","qwe5":"Bahrain","0mJa":"eskom","n2g9":"Middle East Utilities","ZDOJ":"Indonesia","qDRL":"@demo","ZEpJ":"fuel flex webinar","Eno7":"UAE","3GmK":"Known Visitors","wYJe":"aero vs recips ssa","lz96":"key accounts - gas upgrades","4n8B":"key accounts - adapting","0Gaq":"aero repowering crossfleet","0GkO":"key accounts - exelon","eE8a":"tva","X7xD":"senegal","8Ko0":"south africa","dJ00":"nigeria","MYvB":"ethiopia","Dn0n":"kenya","d15K":"Competitors","2Zlv":"Aero Asset 2.0 - all","AXAp":"GT26","9AX2":"Kansas City Power","glq6":"combined TEAMS/IBS","a17G":"Kuwait","jlBv":"taiwan 7ha","K7PP":"LATAM + Carib","BW4w":"Rotor Life Extension F-class page","8PBM":"key accounts - battery storage","9Rpp":"exclude taiwan","ZEQ9":"epc - asia","vDK3":"epc - china","JbRE":"epc - europe","7DxK":"epc - south asia","YKzv":"genco - asia","aD3G":"genco - ssa","Kg19":"genco - europe","6Rx9":"genco - mena","B3eM":"AUS utilities","GBed":"genco - china","kd3k":"AUS mining","5mxK":"genco - south asia","JGMj":"Rotor - South Dakota","eORz":"No One","RR1d":"siemens","1Yde":"key accounts - energy storage","Ro4w":"key accounts - gas services/6B repowering","Wz02":"test","wYmW":"boiler services","3mZk":"Exxon","AD9p":"7EA Accounts","pY3K":"Website Outage Targeting","4beg":"sri lanka display ads","RoaO":"sri lanka country","zBvL":"Ontario","Y5b5":"PressureWave personalization","Q70K":"Rotor - Michigan","QGaK":"India","eO6Z":"USA","x0zD":"Oman","Q5mL":"ATS - 7E customer list","442g":"LATAM","XQMX":"Western States Power Conference","Q5Ev":"ATS - 5 - customer list","zBOJ":"ATS - 6B - customer list","kM3B":"NAM","Q5kv":"SteamH Accounts","E1AP":"Tristate Generation","bX7B":"ATS - 6B - AMEC","jY18":"DP Webinar - industries","gWxx":"Xcel","n2Gg":"GPS Product Catalog Competitors","BzPk":"Outage Targeting","P2ab":"All","Q7WL":"NAM key accounts","XQgX":"Triblio","zkBQ":"Xcel Energy","bX4L":"@ Account Sync [Admin Use]","4QDv":"Data Sync","MG7o":"Cross-Fleet 501F","e3ee":"key accounts - 7HA","Eea7":"Rotor Life - Accounts","opm3":"PressureWave - Middle East","8PAK":"SE Asia","a0vG":"outages campaign code","kbM0":"RE-100","bJwZ":"Cypress","OJpg":"Rotor - Alabama","0BO1":"Rotor - Alberta","w8pX":"Rotor - Arizona","WLJa":"Rotor - Arkansas","mv3X":"Rotor - California","XDap":"Rotor - Florida","op00":"Rotor - Colorado","dXYx":"Rotor - Georgia","D324":"Rotor - Idaho","4nOg":"Rotor - Illinois","8P3a":"Rotor - Indiana","n70K":"Rotor - Iowa","ADmP":"Iraq","kRp2":"Rotor - Kentucky","jKpe":"Rotor - Kansas","MGop":"ADMS Display Ads","PGpB":"Rotor - Louisiana","bJZO":"Rotor - Maine","zZp2":"Rotor - Maryland","q1p5":"Rotor - Minnesota","e3pZ":"Rotor - Mississippi","9b9e":"Rotor - North Carolina","Eevz":"Rotor - Nevada","RRp7":"Rotor - New Jersey","1YOw":"Rotor - New Mexico","38O9":"Rotor - New York","gXpb":"Rotor - Ohio","24Oz":"Rotor - Oklahoma","ADEP":"Rotor - Ontario","v475":"Rotor - South Carolina","LmpP":"Rotor - Oregon","lz3n":"Rotor - Pennsylvania","pR67":"Rotor - Quebec","Zp04":"Rotor - Saskatchewan","7L9R":"Rotor - Tennessee","YDJP":"Rotor - Texas","G75k":"Rotor - Utah","6ma5":"Rotor - Washington","5jp2":"Rotor - Wisconsin","ZpaJ":"rural electrification","e34Z":"Outages - 01 Jan - Mar 2019","4nDP":"Outages - 02 Apr - June 2019","8P5W":"Outage - 03 July - Sept 2019","n7Qm":"Outages - 04 Oct - Dec 2019","jKBa":"Outages - 05 Jan - Mar 2020","kRPk":"Outages - 06 April - June 2020","BW5M":"Outages - 07 Jul - Sept 2020","PGEk":"Outages - 08 Oct - Dec 2020","n7E4":"aero asset 2.0 account gathering","n74g":"AIM Outages display ads","KX5m":"Rotor - Virginia","1Ybe":"NAM Key accounts - Jan 2019 (Nicolette)","mva7":"NAM key accounts (full)","Y5YB":"GE","kRE0":"key accounts - wind services","bJkZ":"key accounts - steam services","BWzD":"PJM","n775":"Combined Conference 2018 - Users Attendee List","B0xX":"PressureWave - Wisconsin","AbPe":"PressureWave - Florida","d3P5":"PressureWave - Pennsylvania","L7gA":"PressureWave - Georgia","lqRL":"PressureWave - Hawaii","pw2L":"PressureWave - Idaho","Zv5Z":"PressureWave - Illinois","52Ko":"PressureWave - Mississippi","vwvQ":"PressureWave - Indiana","aQjo":"PressureWave - New Brunswick","Jm1R":"PressureWave - Iowa","05vo":"PressureWave - New Mexico","7G5M":"PressureWave - Louisiana","40GB":"PressureWave - South Carolina","xx72":"PressureWave - Nevada"}};
+
+  /*some ppl want our visitor id available immediately ie GE with Adobe Analyitcs
+  GE wants to use a custom firm track to post to adobe and GA. Adding this storage set here
+  because it doesnt hurt. */
+  if(sessionStorage && sessionStorage.setItem){
+    sessionStorage.setItem("s_triblio_visitor_id", triblioVisitorId);
+  }
+
+  if(!w.Triblio){ w.Triblio = {}; }
+  if(w.Triblio.onAccountIdentificationReady){ w.Triblio.onAccountIdentificationReady(firmographicRecord); }
+  w.Triblio.getAccountIdentification = function(){
+    return firmographicRecord;
+  };
+
+  if(!w.TriblioAssetNameTracking) w.TriblioAssetNameTracking = {queued:[]};
+
+  var CustomTracker = function(){};
+
+  CustomTracker.prototype.run = function(){
+    this.postFirmographicData();
+    this.checkAssetNamesQueue();
+  };
+
+  CustomTracker.prototype.postFirmographicData = function(){
+    var data = {"name":"Datalogic S.p.A.","sicCode":3999,"isIsp":false,"employees":"2,500 to 5,000","revenue":"$250,000,000 to $500,000,000","country":"Italy","domain":"datalogic.com","naicCode":333249,"employeesCode":8,"revenueCode":7,"region":"Emilia-Romagna","city":"San Vitale Grande","subIndustry":"Other Industrial Machinery Manufacturing","industry":"Machinery Manufacturing"};
+var maxRetriesGA = 1000;
+var retryCountGA = 0;
+function waitForGA(callback){
+  if(typeof ga === "undefined" && retryCountGA <= maxRetriesGA){
+    /*wait for ga to load*/
+    setTimeout(function(){
+      retryCountGA++;
+      waitForGA(callback);
+    }, 5);
+  }
+  else if(retryCountGA > maxRetriesGA){
+    console.log("cant find google analytics library on page!");
+  }
+  else callback();
+}
+
+
+/*for tableau, adobe analytics will get these values via classification job. data is the firmographic object that gets inserted into scope runtime*/
+if(!data.subIndustry) data.subIndustry = 'N/A';
+
+data.gegulCompanyName = "N/A";
+data.gegul = "N/A";
+data.accountStatus = "N/A";
+data.accountType = "N/A";
+
+var triblioData92 = [data.name, data.industry, data.subIndustry, data.employees, data.revenue].join(";");
+var triblioData91 = [data.gegulCompanyName, data.gegul, data.accountType, data.accountStatus, data.domain].join(";");
+
+sessionStorage.setItem('s_triblio_visitor_id', triblioVisitorId);
+sessionStorage.setItem('s_triblio_firm_data_91', triblioData91);
+sessionStorage.setItem('s_triblio_firm_data_92', triblioData92);
+
+waitForGA(function(){
+  ga(function(tracker){
+  if(!tracker || (tracker.get("trackingId") && tracker.get("trackingId") !== "UA-52627621-2")){
+  ga("create", "UA-52627621-2", "auto");
+  }
+  ga("set", "dimension1", data.domain);
+  ga("set", "dimension2", data.industry);
+  ga("set", "dimension3", data.subIndustry);
+  ga("set", "dimension4", data.employees);
+  ga("set", "dimension5", data.revenue);
+  ga("send", "event", {nonInteraction: true});
+  });
+});
+  };
+
+  CustomTracker.prototype.checkAssetNamesQueue = function(){
+    var that = this;
+
+    if(w.TriblioAssetNameTracking.queued){
+      w.TriblioAssetNameTracking.queued.forEach(function(ids){
+        that.postAssetNames(ids);
+      });
+    }
+  };
+
+  CustomTracker.prototype.postAssetNames = function(ids){
+    if(shouldTrackOrgAssets){
+      /*
+        user needs to handle waiting for third party analytics library to load if necessary
+      */
+      var data = _getAssetNamesFromIds(ids);
+
+      var maxRetriesAA = 2000;
+var retryCountAA = 0;
+function waitForAdobe(callback){
+  if((typeof s_gi === "undefined" || typeof s === "undefined") && retryCountAA <= maxRetriesAA){
+    /*wait for aa to load*/
+    setTimeout(function(){
+      retryCountAA++;
+      waitForAdobe(callback);
+    }, 5);
+  }
+  else if(retryCountAA > maxRetriesAA){
+    console.log("cant find adobe analytics library on page!");
+  }
+  else{
+    callback();
+  }  
+}
+
+waitForAdobe(function(){
+  data.forEach(function(d){
+    s.eVar93 = d.campaign + ";" + d.audience + ";" + d.personalization;
+    s.linkTrackVars = "eVar93";
+    if(d.action === "impression"){ s.events="event51=1"; s.linkTrackVars += ",events"; s.linkTrackEvents = "event51";}
+    else if(d.action === "click"){ s.events="event50=1"; s.linkTrackVars += ",events"; s.linkTrackEvents = "event50";}
+    var linkType = "o";
+    var linkName = "TriblioData";
+    s.tl(true, linkType, linkName);
+  });
+});
+    }
+  };
+
+  function _getAssetNamesFromIds(data){
+    var lookup = eIdsToNames;
+    if(!lookup || !Object.keys(lookup).length){
+      lookup = {personalizations:{}, contentHubs: {}, audiences:{}, campaigns:{}};
+    }
+    var names = [];
+
+    if(data.type !== "board" && data.personalizationId && data.audienceSegmentId && data.campaignId){
+      var personalizationIds = data.personalizationId.split(",");
+      var audienceSegmentIds = data.audienceSegmentId.split(",");
+      var campaignIds = data.campaignId.split(",");
+
+      personalizationIds.forEach(function(pId, index){
+        var hasPersonalization = (personalizationIds[index] && lookup.personalizations[personalizationIds[index]]) ? true : false;
+        var hasAudience = (audienceSegmentIds[index] && lookup.audiences[audienceSegmentIds[index]]) ? true : false;
+        var hasCampaign = (campaignIds[index] && lookup.campaigns[campaignIds[index]]) ? true : false;
+
+        names.push({
+          campaign: lookup.campaigns[campaignIds[index]],
+          audience: lookup.audiences[audienceSegmentIds[index]],
+          personalization: lookup.personalizations[personalizationIds[index]],
+          action: data.action //impression or click
+        });
+      });
+    }
+    return names;
+  }
+
+  var tracker = new CustomTracker();
+  w.TriblioAssetNameTracking.postAssetNames = tracker.postAssetNames;
+
+  tracker.run();
+}(window));

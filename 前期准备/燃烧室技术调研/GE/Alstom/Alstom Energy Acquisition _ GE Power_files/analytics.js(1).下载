@@ -1,0 +1,616 @@
+//  Copyright (c) 2013-2016 Triblio, Inc. All rights reserved.
+/*jshint sub:true*/
+/*global Vidyard,YT, jwplayer, _elqQ, GetElqCustomerGUID*/
+(function(window, document) {
+  var readyList = [];
+  var readyFired = false;
+  var readyEventHandlersInstalled = false;
+
+  // call this when the document is ready
+  // this function protects itself against being called more than once
+  var ready = function ready() {
+    if (!readyFired) {
+      // this must be set to true before we start calling callbacks
+      readyFired = true;
+      for (var i = 0; i < readyList.length; i++) {
+        // if a callback here happens to add new ready handlers,
+        // the docReady() function will see that it already fired
+        // and will schedule the callback to run right after
+        // this event loop finishes so all handlers will still execute
+        // in order and no new ones will be added to the readyList
+        // while we are processing the list
+        readyList[i].fn.call(window, readyList[i].ctx);
+      }
+      // allow any closures held by these functions to free
+      readyList = [];
+    }
+  };
+
+  var readyStateChange = function readyStateChange() {
+    if ( document.readyState === "complete" ) {
+      ready();
+    }
+  };
+
+  // This is the one public interface
+  // trDocReady(fn, context);
+  // the context argument is optional - if present, it will be passed
+  // as an argument to the callback
+  window.trDocReady = function(callback, context) {
+    // if ready has already fired, then just schedule the callback
+    // to fire asynchronously, but right away
+    if (readyFired) {
+      setTimeout(function() {callback(context);}, 1);
+      return;
+    }
+    else {
+      // add the function and context to the list
+      readyList.push({fn: callback, ctx: context});
+    }
+    // if document already ready to go, schedule the ready function to run
+    if (document.readyState === "complete") {
+      setTimeout(ready, 1);
+    }
+    else if (!readyEventHandlersInstalled) {
+      // otherwise if we don't have event handlers installed, install them
+      if (document.addEventListener) {
+        // first choice is DOMContentLoaded event
+        document.addEventListener("DOMContentLoaded", ready, false);
+        // backup is window load event
+        window.addEventListener("load", ready, false);
+      }
+      else {
+        // must be IE
+        document.attachEvent("onreadystatechange", readyStateChange);
+        window.attachEvent("onload", ready);
+      }
+      readyEventHandlersInstalled = true;
+    }
+  };
+})(window, document);
+
+(function(window, document){
+  if(window._hasTriblioTrackingScriptEnabled) return;
+  
+  // polly fill for browsers that don't have window.location.origin
+  // http://tosbourn.com/a-fix-for-window-location-origin-in-internet-explorer/
+  if (!window.location.origin) {
+    window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
+  }
+
+  window._hasTriblioTrackingScriptEnabled = true;
+  
+  var VISIT = 0, TIME_ON_PAGE = 1, CONVERT = 40, CUSTOM_EVENT = 60,
+      MEDIA_CLICK = 21, VIDEO_PLAY = 22, ELQ_COOKIE_TRACK = 10,
+      P13N_CLICK = 52, MKTO_COOKIE_TRACK = 11, PRDT_COOKIE_TRACK = 12,
+      HBSPT_COOKIE_TRACK = 13, REDIRECT = 61, ADD_TO_ACCOUNT = 80, AD_CLICK = 23,
+      COOKIE_TRY_COUNT = 6;
+  
+  var readCookie = function(name) {
+    var cookiename = name + "=";
+    var cookieList = document.cookie.split(';'), cookie;
+
+    for(var i = 0; i < cookieList.length; i+=1) {
+      cookie = cookieList[i];
+      if (cookie.indexOf(cookiename) === 0) return cookie.substring(cookiename.length,cookie.length);
+      while (cookie.charAt(0) === ' ') {
+        cookie = cookie.substring(1,cookie.length);
+        if (cookie.indexOf(cookiename) === 0) return cookie.substring(cookiename.length,cookie.length);
+      }
+    }
+    return null;
+  };
+
+  // pardot tracking script cookie access
+  var piGetCookie = function(a) {
+    if (document.cookie.length > 0) {
+      var c_start = document.cookie.indexOf(a + "=");
+      if (c_start !== -1) {
+        c_start = c_start + a.length + 1;
+        var c_end = document.cookie.indexOf(";", c_start);
+        if (c_end === -1) {
+          c_end = document.cookie.length;
+        }
+        return unescape(document.cookie.substring(c_start, c_end));
+      }
+    }
+    return "";
+  };
+  
+  var paramsArray = function(obj){
+    var ret = [];
+    for(var key in obj) {
+      if(obj.hasOwnProperty(key)) {
+        ret.push(encodeURIComponent(key) + "=" + encodeURIComponent(obj[key]));
+      }
+    }
+    return ret;
+  };
+
+
+  var track = function(type, env){
+    if(typeof(env) == "undefined") { env = {}; } //jshint ignore:line
+    env.i = window['TriblioAnalyticsObject'].uid;
+    env.s = window['TriblioAnalyticsObject'].site;
+    // send some miscellaneous info about the request
+    env.u = document.location.href;
+    env.h = document.location.host;
+    env.bw = window.innerWidth;
+    env.bh = window.innerHeight;
+    env.t = type;
+
+    if(window && window.TRPersonalizationConfig && window.TRPersonalizationConfig.campaignId){
+      if(!env.p) env.p = window.TRPersonalizationConfig.personalizationId;
+      if(!env.ca) env.ca = window.TRPersonalizationConfig.campaignId;
+      if(!env.sm) env.sm = window.TRPersonalizationConfig.audienceSegmentId;
+    } 
+
+    // example of sending a cookie named 'guid'
+    // env.guid = (document.cookie.match(/guid=([^\_]*)_([^;]*)/) || [])[2];
+
+    if(document.referrer && document.referrer !== "") {
+      env.ref = document.referrer;
+    }
+
+    env.rnd = Math.floor(Math.random() * 10e12);
+
+    var params = paramsArray(env);
+
+    var img = new Image();
+    img.src = document.location.protocol+'//tribl.io/_t.gif?' + params.join('&');
+  };
+  
+  //expose track method for use in hub tracking
+  if(window['TriblioAnalyticsObject']) window['TriblioAnalyticsObject'].track = track;
+  
+  var trackConversion = function(formData){
+    if(!formData) formData = {};
+    var env = {};
+    if(typeof formData === 'string') env.fd = formData;
+    else env.fd = paramsArray(formData);
+    track(CONVERT,env);
+  };
+  //expose track method for use in hub tracking
+  if(window['TriblioAnalyticsObject']) window['TriblioAnalyticsObject'].trackConversion = trackConversion;
+  
+  
+  var trackEvent = function (eventType, eventData){
+    var env = {
+      e: eventType,
+      d: eventData
+    };
+    track(CUSTOM_EVENT, env);
+  };
+  //expose event method
+  if(window['TriblioAnalyticsObject']) window['TriblioAnalyticsObject'].trackEvent = trackEvent;
+  
+  var PDF_REGEX = /\/?pdf\/?/i;
+  
+  var addLinkTrackHandlerToHref = function (link){
+    var splitURL = link.href.split('.');
+    if(splitURL[splitURL.length - 1] === 'pdf' || PDF_REGEX.test(link)){
+      link.onclick = function(){
+        var url = link.href;
+        track(MEDIA_CLICK, {l: url});
+      };
+    }
+  };
+  
+  var links = document.getElementsByTagName("a"); 
+  for (var i = 0; i < links.length; i++) { 
+    if (!!links[i].href && links[i].href.length > 0) { // Check that there is an href
+      addLinkTrackHandlerToHref(links[i]);
+    }
+  }
+
+  var env = {};
+  
+  // ..........................................................
+  // YouTube helpers
+  // 
+  
+  //keep track of whether YouTube track event has been fired. Dont want to double count plays for the same video by hitting pause/play
+  var YT_EVENT_FIRED = {};
+
+  // modified and taken from http://stackoverflow.com/questions/7988476/listening-for-youtube-event-in-javascript-or-jquery/7988536#7988536
+  var findYouTubeIFrames = function(){
+    var arr = [];
+    var elems = document.getElementsByTagName("iframe");
+    if (!elems.length) return null; //No iframe found, FAILURE
+    for (var i=0; i<elems.length; i++) {
+      if (/^https?:\/\/(?:www\.)?youtube(?:-nocookie)?\.com(\/|$)/i.test(elems[i].src)) arr.push(elems[i]);
+    }
+    return arr;
+  };
+
+  var onStateChange = function(event){
+    // type 1 is play
+    // get iframe's id and use that to keep track of whether iframe has been played
+    var iframeId = null;
+    if(event && event.target && event.target.getIframe && event.target.getIframe() && event.target.getIframe().id){
+      iframeId = event.target.getIframe().id;
+    }
+
+    if(event && event.data && event.data === 1 && iframeId){
+      track(VIDEO_PLAY, {l: event.target.getIframe().src});
+      YT_EVENT_FIRED[iframeId] = true;
+    }
+  };
+
+  
+
+  /*****************************BEGIN*****************************************/
+  // Search for an eloqua cookie GUID. look every 200 ms up to 10 times
+  // if you're using an embed code that requires eloqua cookies the
+  // window objects will be wrtten. Otherwise it will look for the
+  // guid seperately
+  var waitUntilCustomerGUIDIsRetrieved = function() {  
+    if (typeof GetElqCustomerGUID === 'function') {
+      var cookieGUID = GetElqCustomerGUID() || '';
+      if(cookieGUID){
+        window.TREloquaCookieGUID = cookieGUID;
+        tryForEloqua();
+      }
+    }
+    else{
+      setTimeout(function(){ waitUntilCustomerGUIDIsRetrieved(); }, 250);
+    }
+  };
+  
+  var elqTries = 0;
+  
+
+  var tryForEloqua = function(){
+    if(window.TREloquaCookieGUID){
+      track(ELQ_COOKIE_TRACK, {maCookie: window.TREloquaCookieGUID});
+    }
+    else if(elqTries < 10){
+      elqTries += 1;
+      setTimeout(tryForEloqua, 200);
+    }
+    else{
+      try{
+        if (typeof _elqQ === 'object') {
+          _elqQ.push(['elqGetCustomerGUID']);
+          waitUntilCustomerGUIDIsRetrieved();
+        }
+      }catch(e){
+        //No eloqua scripts present
+      }
+    }
+  };
+  
+  /********************************END****************************************/
+  
+  /*****************************BEGIN*****************************************/
+  // Search for a marketo cookie
+  var mktoTries = 0;
+  var _formatMktoCookie = function(cookie){
+    var split = cookie.split('token:');
+    return split[1];
+  };
+
+  var tryForMarketo = function(){
+    var mktoCookie = readCookie('_mkto_trk');
+    if(mktoCookie){
+      track(MKTO_COOKIE_TRACK, {maCookie: _formatMktoCookie(mktoCookie)});
+    }
+    else if(mktoTries < COOKIE_TRY_COUNT){
+      mktoTries += 1;
+      setTimeout(tryForMarketo, 500);
+    }
+  };
+  
+  /********************************END****************************************/
+
+  /*****************************BEGIN*****************************************/
+  // Search for a pardot cookie
+  var pardotTries = 0;
+
+  var tryForPardot = function(){
+    var pi = window.pi;
+    if (pi && pi.tracker && pi.tracker.account_id) {
+      var pardotCookie = piGetCookie("visitor_id" + (pi.tracker.account_id - 1000));
+      if(pardotCookie){
+        track(PRDT_COOKIE_TRACK, {maCookie: pardotCookie});
+      }
+      else if(pardotTries < COOKIE_TRY_COUNT){
+        pardotTries += 1;
+        setTimeout(tryForPardot, 500);
+      }
+    }
+    else if(pardotTries < COOKIE_TRY_COUNT){
+      pardotTries += 1;
+      setTimeout(tryForPardot, 500);
+    }
+  };
+  
+  /********************************END****************************************/
+  
+  /*****************************BEGIN*****************************************/
+  // Search for a hubspot cookie
+  var hubspotTries = 0;
+
+  var tryForHubspot = function(){
+    var hubspotCookie = readCookie('hubspotutk');
+    
+    if(hubspotCookie){
+      track(HBSPT_COOKIE_TRACK, {maCookie: hubspotCookie});
+    }
+    else if(hubspotTries < COOKIE_TRY_COUNT){
+      hubspotTries += 1;
+      setTimeout(tryForHubspot, 500);
+    }
+  };
+  
+  /********************************END****************************************/
+
+  /*****************************BEGIN*****************************************/
+  // Search for an TRHero personalizations. if there's a link personalization 0
+  
+  var trackHeroP13n = function(data){
+    if(data && data.data && data.data.split){
+      var split = data.data.split(":");
+      return function(evt){
+        evt.preventDefault();
+        track(P13N_CLICK, {p: split[2], ca: split[0], sm: split[1]});
+        postClickToFirmTrack({personalizationId: split[2], campaignId: split[0], audienceSegmentId: split[1]});
+
+        var target = !data.target ? "_self" : data.target;
+        setTimeout(function(){
+          window.open(data.href, target);
+        }, 50);
+      };
+    }
+  };
+
+  var postClickToFirmTrack = function(data){
+    //posting to firm track to see if asset tracking is enabled for this org,
+    //firm track will decide and post if required
+    if(data && Object.keys(data).length){
+      var obj = {
+        action: "click",
+        campaignId: data.campaignId,
+        audienceSegmentId: data.audienceSegmentId,
+        personalizationId: data.personalizationId
+      };
+
+      if(window.TriblioAssetNameTracking && window.TriblioAssetNameTracking.postAssetNames){
+        window.TriblioAssetNameTracking.postAssetNames(obj);
+      }
+      else if(window.TriblioAssetNameTracking){
+        if(window.TriblioAssetNameTracking.queued) window.TriblioAssetNameTracking.queued.push(obj);
+        else window.TriblioAssetNameTracking.queued = [obj];
+      }
+      else{
+        window.TriblioAssetNameTracking = {queued: [obj]};
+      }
+    }
+  };
+
+  var _addEventListenerToLink = function(element){
+    if(element){
+      var trackData = {
+        data: element.getAttribute('data-tr'),
+        target: element.getAttribute("target"),
+        href: element.getAttribute('href')
+      };
+
+      // For all major browsers, except IE 8 and earlier
+      if(element.addEventListener){
+        element.addEventListener("click", trackHeroP13n(trackData));
+      }
+      // For IE 8 and earlier versions
+      else if(element.attachEvent){
+        element.attachEvent("onclick", trackHeroP13n(trackData));
+      }
+    }
+  };
+  
+  var tryForHeroP13ns = function(){
+    if(window.TRHero && window.TRHero.data && window.TRHero.data.length > 0){
+      window.TRHero.data.forEach(function(p13n){
+        if(p13n.directive === 'link' || p13n.directive === 'addLink'){
+          var el = document.querySelector(p13n.selector);
+          
+          if(!el || !el.tagName) return;
+          
+          // tag names can be uppercase in HTML doctype, or case preserved in XHTML doctype https://developer.mozilla.org/en-US/docs/Web/API/Element/tagName
+          if(el.tagName !== "a" && el.tagName !== "A") el = document.querySelector(p13n.selector+" > a");
+          
+          _addEventListenerToLink(el);
+        }
+        else if(p13n.directive === 'html'){
+          var links = document.querySelectorAll(p13n.selector + ' a');
+
+          links.forEach(function(link){
+            if(link.getAttribute("data-tr")){
+              _addEventListenerToLink(link);
+            }
+          });
+        }
+      });
+    }
+  };
+  
+  tryForHeroP13ns();
+  /********************************END****************************************/
+  
+  
+  //Doucment Ready!
+  window.trDocReady(function(){
+
+    var _setupVideoTracking = function(){
+      // Vidyard
+      if(window['TriblioAnalyticsObject'].disableVideoTracking){
+        return;
+      }
+      try{
+        if(Vidyard && Vidyard.player){
+          var vidyardKeys = Object.keys(Vidyard._players);
+          var PLAY_CALLED = false;
+          vidyardKeys.forEach(function(key){
+            var video = new Vidyard.player(key);
+            video.on("play", function() {
+              if(!PLAY_CALLED){
+                var url = $('#vidyard_iframe_' + key).attr('src');
+                if(url.indexOf('//') > -1) url = url.replace('//', '');
+                var HTTP_REGEX = /https?:\/\//i;
+                if(!HTTP_REGEX.test(url)) url = 'http://' + url;
+                track(VIDEO_PLAY, {l: url});
+                PLAY_CALLED = true;
+              }
+            });
+          });
+        }
+      }
+      catch(e){
+        // no vidyard on page
+      }
+
+      // YouTube
+      try{
+        var frames = findYouTubeIFrames();
+        if(frames && frames.length > 0 && YT && typeof jwplayer === 'undefined'){
+          YT.ready(function(){
+            frames.forEach(function(frame){
+              new YT.Player(frame, {
+                events: {
+                  "onStateChange": onStateChange
+                }
+              });
+            });
+          });
+        }
+      }
+      catch(e){
+        // no youtube vids on page or YT isn't defined
+      }
+    };
+
+    _setupVideoTracking();
+
+    var shouldTrackPageview = function(){
+      if(window['TriblioAnalyticsObject'].doNotTrackPageview) return false;
+      //we arent in an iframe
+      if(window.top === window.self) return true;
+      var blacklist = ["pardot"], isNotBlacklisted = true;
+
+      blacklist.forEach(function(domain){
+        isNotBlacklisted = window.location.hostname.indexOf(domain) === -1;
+      });
+
+      return isNotBlacklisted;
+    };
+
+    //if we are in an iframe, dont fire a visit because the outer page already fired a visit.
+    if(shouldTrackPageview()){
+      // fire the track on docReady so hopefully the env parameteres have been injected into the page
+      track(VISIT,env);
+    }
+
+    //tracking redirect personalizations
+    var checkForRedirect = function(){
+      var queryParams = getQueryVariable();
+      if(queryParams.tr_redirect){
+        track(REDIRECT, {
+          ca: queryParams.tr_cp_id,
+          sm: queryParams.tr_a_id,
+          p: queryParams.tr_pn_id
+        });
+      }
+    };
+
+    var getQueryVariable = function(){
+      var obj = {};
+      var url = window.location.href;
+      var idx = url.indexOf("?");
+      if(idx === -1) return {};
+
+      var qStr = url.substring(idx+1);
+      var params = qStr.split('&');
+      for(var i = 0; i < params.length; i++){
+        var pair = params[i].split('=');
+        obj[pair[0]] = pair[1] || 1;
+      }
+      return obj;
+    };
+
+    // http://stackoverflow.com/questions/1714786/querystring-encoding-of-a-javascript-object
+    var serialize = function(obj){
+      return Object.keys(obj).reduce(function(a,k){
+        a.push(k+'='+encodeURIComponent(obj[k]));
+        return a;
+      },[]).join('&');
+    };
+
+    var removeQueryParamFromURL = function(param, queryVariables){
+      if(queryVariables[param]){
+        delete queryVariables[param];
+        var newUrl;
+
+        // if there's no other query params, just rewrite the url as the base url, otherwise serialize and append
+        // queryparams to original url without param
+        if(Object.keys(queryVariables).length > 0){
+          newUrl = window.location.origin + window.location.pathname + "?" + serialize(queryVariables);
+        }
+        else newUrl = window.location.origin + window.location.pathname;
+
+        if(window.history && window.history.pushState){
+          window.history.pushState({}, null, newUrl); //http://stackoverflow.com/questions/3338642/updating-address-bar-with-new-url-without-hash-or-reloading-the-page
+        }
+      }
+    };
+
+    var trackAsAccount = function(accountDomain){
+      if(accountDomain && accountDomain.length > 0){
+        track(ADD_TO_ACCOUNT, {actd: accountDomain});
+      }
+      else{
+        var queryVariables = getQueryVariable();
+        // first check tr_source and utm_source for a domain/email
+        if(queryVariables && queryVariables.tr_source){
+          track(ADD_TO_ACCOUNT, {actd: queryVariables.tr_source});
+        }
+        // if there's a tr_source queryparam, delete it
+        removeQueryParamFromURL('tr_source', queryVariables);
+      }
+    };
+
+    var trackAsAd = function(){
+      var queryVariables = getQueryVariable();
+
+      if(queryVariables && queryVariables.tr_cr){
+        var obj = {};
+        if(queryVariables && queryVariables.tr_pn) obj.p = queryVariables.tr_pn;
+        if(queryVariables && queryVariables.tr_ca) obj.ca = queryVariables.tr_ca;
+        if(queryVariables && queryVariables.tr_as) obj.sm = queryVariables.tr_as;
+        if(queryVariables && queryVariables.tr_cr) obj.cr = queryVariables.tr_cr;
+        if(queryVariables && queryVariables.tr_src) obj.src = queryVariables.tr_src;
+        track(AD_CLICK, obj);
+      }
+    };
+
+    if(window['TriblioAnalyticsObject']) window['TriblioAnalyticsObject'].trackAsAccount = trackAsAccount;
+
+    checkForRedirect();
+    
+    //Sometimes other scripts on the page can break if
+    //we call for the eloqua guid before them
+    //this makes sure we don't!
+    setTimeout(function(){
+      tryForEloqua();
+    }, 2000);
+    
+    tryForMarketo();
+    tryForPardot();
+    tryForHubspot();
+
+    trackAsAccount();
+    trackAsAd();
+  });
+  //you spent 30 seconds...you read it
+  setTimeout(function(){
+    track(TIME_ON_PAGE,env);
+  }, 1000*30);
+})(window, document);
