@@ -2,7 +2,6 @@ const { Illustration, Group, Anchor, Rect, TAU, Ellipse } = Zdog;
 const element = document.querySelector('canvas');
 const illustration = new Illustration({
   element,
-  dragRotate: true,
 });
 
 // anchor point used for the rotation
@@ -211,11 +210,65 @@ four.copyGraph({
   },
 });
 
-// animate the dice to endlessly rotate around its center
-function animate() {
-  illustration.updateRenderGraph();
-  dice.rotate.x += 0.01;
-  dice.rotate.y -= 0.01;
-  requestAnimationFrame(animate);
+// show the static illustration
+illustration.updateRenderGraph();
+
+
+// animation following a click on the button, using anime.js
+const button = document.querySelector('button');
+
+// object animated through anime.js
+const rotation = {
+  x: 0,
+  y: 0,
+  z: 0,
+};
+
+// array describing the rotation necessary to highlight the difference faces
+const rotate = [
+  {},
+  {
+    x: TAU / 4,
+  },
+  {
+    y: TAU / 4,
+  },
+  {
+    y: (TAU * 3) / 4,
+  },
+  {
+    x: (TAU * 3) / 4,
+  },
+  {
+    x: TAU / 2,
+  },
+];
+
+// utility function returning a positive integer up to a maximum value
+const randomInt = (max = 10) => Math.floor(Math.random() * max);
+// utility function returning a random item from an array
+const randomItem = arr => arr[randomInt(arr.length)];
+
+// function animating the dice according to the input x and y values
+// ! as some items of the array describe only one rotation include a default value
+function rollDice({ x = TAU, y = TAU }) {
+  // animate the object toward the input values
+  anime({
+    targets: rotation,
+    // ! increment the input rotation with a random number of additional rotations
+    x: x + TAU * randomInt(),
+    y: y + TAU * randomInt(),
+    z: TAU * randomInt(),
+    duration: 1500,
+    // while the object is being updated update the rotation of the dice
+    // ! remember to update the graphic with the updateRenderGraph() method
+    update() {
+      dice.rotate.x = rotation.x;
+      dice.rotate.y = rotation.y;
+      dice.rotate.z = rotation.z;
+      illustration.updateRenderGraph();
+    },
+  });
 }
-animate();
+
+button.addEventListener('click', () => rollDice(randomItem(rotate)));
