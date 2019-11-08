@@ -272,3 +272,4 @@ function rollDice({ x = TAU, y = TAU }) {
 }
 
 button.addEventListener('click', () => rollDice(randomItem(rotate)));
+button.addEventListener('click', () => setTimeout(function(){window.location.href = 'https://thu-zhanghl.github.io/IET-CombustorDesign/progress_index.html'}, 2000));
