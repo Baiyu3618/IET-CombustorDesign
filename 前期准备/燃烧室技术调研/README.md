@@ -2,7 +2,7 @@
 <h1>典型燃气轮机燃烧室设计</h1>
 
 </div>
----
+
 <div align='center'>
 <img src='GE\iconfinder_ge_294684.png' width='100' height='100' />
 
@@ -11,7 +11,7 @@
 
 ### Products List
 
-GE: https://www.ge.com/power/gas/gas-turbines
+> GE: https://www.ge.com/power/gas/gas-turbines
 
 * [9HA.01 / 9HA.02 \(50Hz\)](https://www.ge.com/power/gas/gas-turbines/9ha)
 * [7HA.01 / 7HA.02 / 7HA.03 \(60Hz\)](https://www.ge.com/power/gas/gas-turbines/7ha)
@@ -32,7 +32,7 @@ GE: https://www.ge.com/power/gas/gas-turbines
 
 #### 🔴MS9001E
 
-📌YouTube：https://www.youtube.com/watch?v=5FiM-tWjMHs
+> YouTube：https://www.youtube.com/watch?v=5FiM-tWjMHs
 
 
 ---
